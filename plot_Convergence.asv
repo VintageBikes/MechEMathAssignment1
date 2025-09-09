@@ -79,6 +79,16 @@ function x = plot_Convergence(solver, func, x0_list, x0_list2)
     fit_line_y = k*fit_line_x.^p;
     %plot on a loglog plot.
     loglog(fit_line_x,fit_line_y,'k-','linewidth',2)
+    
+    
+    
+    
+  
+    
+    
+    
+    
+    
     end
 
     %% Step 7

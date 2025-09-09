@@ -17,6 +17,7 @@ x_next_list = [];
 index_list = [];
 %loop through each trial
 for n = 1:num_iter
+    test = 1
     %pull out the left and right guess for the trial
     x0 = x0_list(n);
     %clear the input_list global variable   
