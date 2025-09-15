@@ -1,4 +1,4 @@
-%% Steps 1 and 2
+%% Parts 1 and 2
 % Initial guesses
 x_guess0 = -5;
 x_guess1 = 5;
@@ -10,30 +10,26 @@ dfdxmin = 1e-8;
 bisection_solver(@test_function, x_guess0, x_guess1, dxtol, ytol, max_iter)
 newton_solver(@test_function, x_guess0, dxtol, ytol, max_iter, dfdxmin)
 secant_solver(@test_function, x_guess0, x_guess1, dxtol, ytol, max_iter, dfdxmin)
+fzero(@test_function, x_guess0)
 
 
-% %% Step 3
-% % Create list of initial guesses
-% x0_list = linspace(-5, 5, 1000);
-% x0_list2 = linspace(0, 10, 1000);
-% 
-% % % Bisection Method
-% % plot_convergence(1, test_func01, x0_list)
-% % 
-% % % Newtons Method
-% % plot_convergence(2, [test_func01, test_derivative01], x0_list)
-% % 
-% % % Secant Method
-% % plot_convergence(3, test_func01, x0_list)
-% % 
-% % % Fzero Method
-% % plot_convergence(4, test_func01, x0_list)
-% 
-% % Function to combine initial x guesses
-% function combined_x0_list = combine_x0(x0_list1, x0_list2)
-% 
-% end
-% 
+%% Part 3
+% Create list of initial guesses
+guess_list1 = linspace(-5, 5, 1000);
+guess_list2 = linspace(0, 10, 1000);
+
+% Bisection Method
+convergence_analysis(1, @test_function, x_guess0, guess_list1, guess_list2, 0)
+
+% Newtons Method
+convergence_analysis(2, @test_function, x_guess0, guess_list1, guess_list2, 0)
+
+% Secant Method
+convergence_analysis(3, @test_function, x_guess0, guess_list1, guess_list2, 0)
+
+% Fzero Method
+%convergence_analysis(4, @test_function, x_guess0, guess_list1, guess_list2, 0)
+
 
 function [fval,dfdx] = test_function(x)
     fval = (x.^3)/100 - (x.^2)/8 + 2*x + 6*sin(x/2+6) -.7 - exp(x/6);
