@@ -1,18 +1,41 @@
-%Bisection Solver Function
-function x = bisectionsolver(fun,x_left,x_right)
-    %Test to ensure there is a solution between inputs
-    if fun(x_left) * fun(x_right) > 0
-        x = "Terminating: possibly no root between inputs";
-        return
+%% Bisection Solver Function
+function x = bisection_solver(fun, x_left, x_right, dxtol, ytol, max_iter)
+    global input_list;
+    
+    y_left = fun(x_left);
+    y_right = fun(x_right);
+    % Throw an error if there is no solution between inputs
+    if sign(y_left) == sign(y_right)
+        error("Possibly no root between bisection inputs");
     end
-    x_mid = (x_left+x_right)/2; %Create a midpoint between inputs
-    f_of_x_mid = fun(x_mid); %Find function between
-    %Determine if the midpoint should be the new right point or left point
-    if 0 <= abs(f_of_x_mid) && abs(f_of_x_mid) < 10^-13
-        x = x_mid; %Failsafe to stop function if the value is close enough to zero
-    elseif f_of_x_mid * fun(x_left) < 0
-        x = bisectionsolver(fun, x_left, x_mid);
-    else
-        x = bisectionsolver(fun, x_mid, x_right);
+
+    for i = 1:max_iter
+        % Create a midpoint between inputs
+        x_mid = (x_left+x_right)/2;
+        input_list = [input_list, x_mid];
+
+        % Return the root if dx is small enough
+        if abs(x_left - x_mid) <= dxtol
+            x = x_mid;
+            return;
+        end
+
+        % Calculate y_mid
+        y_mid = fun(x_mid);
+        
+        % Return the root if the value is (basically) 0
+        if 0 <= abs(y_mid) && abs(y_mid) < ytol
+            x = x_mid;
+            return
+        end
+
+        % Determine if the midpoint should be the new right point or left point
+        if sign(y_mid) == sign(y_left)
+            x_right = x_mid;
+        else
+            x_left = x_mid;
+        end
     end
+    % Return the root if enough iterations have passed
+    x = x_mid;
 end
