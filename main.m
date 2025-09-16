@@ -18,17 +18,23 @@ fzero(@test_function, x_guess0)
 guess_list1 = linspace(-5, 5, 1000);
 guess_list2 = linspace(0, 10, 1000);
 
+figure();
+
 % Bisection Method
+subplot(2, 2, 1);
 convergence_analysis(1, @test_function, x_guess0, guess_list1, guess_list2, 0)
 
 % Newtons Method
+subplot(2, 2, 2);
 convergence_analysis(2, @test_function, x_guess0, guess_list1, guess_list2, 0)
 
 % Secant Method
+subplot(2, 2, 3);
 convergence_analysis(3, @test_function, x_guess0, guess_list1, guess_list2, 0)
 
 % Fzero Method
-%convergence_analysis(4, @test_function, x_guess0, guess_list1, guess_list2, 0)
+subplot(2, 2, 4);
+convergence_analysis(4, @test_function, x_guess0, guess_list1, guess_list2, 0)
 
 
 function [fval,dfdx] = test_function(x)

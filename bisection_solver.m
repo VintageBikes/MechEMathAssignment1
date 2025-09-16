@@ -1,7 +1,5 @@
 %% Bisection Solver Function
 function x_root = bisection_solver(fun, x_left, x_right, dxtol, ytol, max_iter)
-    global input_list;
-
     y_left = fun(x_left);
     y_right = fun(x_right);
     % Throw an error if there is no solution between inputs
@@ -12,7 +10,6 @@ function x_root = bisection_solver(fun, x_left, x_right, dxtol, ytol, max_iter)
     for i = 1:max_iter
         % Create a midpoint between inputs
         x_mid = (x_left + x_right) / 2;
-        input_list = [input_list, x_mid];
 
         % Return the root if dx is small enough
         if abs(x_left - x_mid) <= dxtol

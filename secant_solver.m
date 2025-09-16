@@ -1,6 +1,5 @@
 %% Secant Method Solver Function
 function x_root = secant_solver(fun, x_guess0, x_guess1, dxtol, ytol, max_iter, dfdxmin)
-    global input_list;
 
     delta_x = 2 * dxtol;
     fval0 = fun(x_guess0);
@@ -19,7 +18,6 @@ function x_root = secant_solver(fun, x_guess0, x_guess1, dxtol, ytol, max_iter, 
         x_guess1 = x_guess2;
         fval1 = fval2;
         dfdx = (fval1 - fval0) / (x_guess1 - x_guess0);
-        input_list = [input_list, x_guess1];
     end
     x_root = x_guess1;
 end
