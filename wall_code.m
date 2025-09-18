@@ -1,0 +1,34 @@
+function [] = wall_code(wall,floor,trajectory)
+    time_span = linspace(0,6,181);
+    egg_params = struct();
+    egg_params.a = 3; egg_params.b = 2; egg_params.c = .15;
+    [x0,y0,theta] = egg_trajectory(0);
+    [xmax,ymin] = egg_box(x0,y0,theta,egg_params);
+    xmax
+    ymin
+    
+    for n = 1:length(time_span)
+        t = time_span(n);
+        pause(.05);
+        if xmax < wall && ymin > floor
+            [x0,y0,theta] = egg_trajectory(t);
+            [xmax,ymin] = egg_box(x0,y0,theta,egg_params);
+        end
+        
+
+        if xmax > wall && ymin > floor
+            hit = t
+
+            [x0,y0] = egg_fall(x0, y0);
+            
+            [xmax,ymin] = egg_box(x0,y0,theta,egg_params);
+            ymin = y0
+        end
+        
+        if ymin < floor
+            disp('hit wall at ');
+            disp('hit the floor at ')
+            return;
+
+    end
+end

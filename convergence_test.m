@@ -8,14 +8,14 @@ function convergence_test()
     max_iter = 100;
     
 
-    x_root = orion_newton(@test_function,27,dxtol,ytol,max_iter,dfdxmin);
+    x_root = newton_solver(@test_function,27,dxtol,ytol,max_iter,dfdxmin);
 
     success_list = [];
     fail_list = [];
 
     for n = 1:length(x_in)
         x_guess = x_in(n);
-        root_attempt = orion_newton(@test_function,x_guess,dxtol,ytol,max_iter,dfdxmin);
+        root_attempt = newton_solver(@test_function,x_guess,dxtol,ytol,max_iter,dfdxmin);
         if abs(x_root - root_attempt) < .1
             success_list(end+1) = x_guess;
         else
@@ -37,18 +37,6 @@ function convergence_test()
 
 end
 
-function x_root = orion_newton(fun, x_guess, dxtol, ytol, max_iter,dfdxmin)
-    delta_x = 2*dxtol;
-    [fval,dfdx] = fun(x_guess);
-    count = 0;
-    while count<max_iter && abs(delta_x) > dxtol && abs(fval) > ytol && abs(dfdx) > dfdxmin
-        count = count+1;
-        delta_x = -fval/dfdx;
-        x_guess = x_guess + delta_x;
-        [fval,dfdx] = fun(x_guess);
-    end
-    x_root = x_guess;
-end
 
 %Example sigmoid function
 function [f_val,dfdx] = test_function(x)

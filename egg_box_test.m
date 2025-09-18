@@ -1,4 +1,4 @@
-function egg_box()
+function egg_box_test()
     eggxample01();
 
 end
@@ -9,7 +9,7 @@ function eggxample01()
     egg_params.a = 3; egg_params.b = 2; egg_params.c = .15;
 
     %specify the position and orientation of the egg
-    x0 = 5; y0 = 5; theta = pi/6;
+    x0 = 5; y0 = 5; theta = 1;
     %set up the axis
     hold on; axis equal; axis square
     axis([0,10,0,10])
