@@ -5,7 +5,7 @@ function x = convergence_analysis(solver_flag, fun, x_guess0, guess_list1, guess
     dfdxmin = 1e-8;
 
     %% Step 2
-    x_root = fzero(fun, x_guess0);
+    x_root = newton_solver(fun, x_guess0, dxtol, ytol, max_iter, dfdxmin)
 
     %% Step 3
     my_recorder = input_recorder();

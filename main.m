@@ -7,10 +7,10 @@ ytol = 1e-14;
 max_iter = 200;
 dfdxmin = 1e-8;
 
-bisection_solver(@test_function, x_guess0, x_guess1, dxtol, ytol, max_iter)
-newton_solver(@test_function, x_guess0, dxtol, ytol, max_iter, dfdxmin)
-secant_solver(@test_function, x_guess0, x_guess1, dxtol, ytol, max_iter, dfdxmin)
-fzero(@test_function, x_guess0)
+bisection_solver(@test_function01, x_guess0, x_guess1, dxtol, ytol, max_iter)
+newton_solver(@test_function01, x_guess0, dxtol, ytol, max_iter, dfdxmin)
+secant_solver(@test_function01, x_guess0, x_guess1, dxtol, ytol, max_iter, dfdxmin)
+fzero(@test_function01, x_guess0)
 
 
 %% Part 3
@@ -22,22 +22,48 @@ figure();
 
 % Bisection Method
 subplot(2, 2, 1);
-convergence_analysis(1, @test_function, x_guess0, guess_list1, guess_list2, 0)
+convergence_analysis(1, @test_function01, x_guess0, guess_list1, guess_list2, 0);
 
 % Newtons Method
 subplot(2, 2, 2);
-convergence_analysis(2, @test_function, x_guess0, guess_list1, guess_list2, 0)
+convergence_analysis(2, @test_function01, x_guess0, guess_list1, guess_list2, 0);
 
 % Secant Method
 subplot(2, 2, 3);
-convergence_analysis(3, @test_function, x_guess0, guess_list1, guess_list2, 0)
+convergence_analysis(3, @test_function01, x_guess0, guess_list1, guess_list2, 0);
 
 % Fzero Method
 subplot(2, 2, 4);
-convergence_analysis(4, @test_function, x_guess0, guess_list1, guess_list2, 0)
+convergence_analysis(4, @test_function01, x_guess0, guess_list1, guess_list2, 0);
+
+%% Part 4
+figure();
+
+% Newtons Method
+subplot(1, 2, 1);
+convergence_analysis(2, @test_function02, x_guess0, guess_list1, guess_list2, 0);
+
+% Secant Method
+subplot(1, 2, 2);
+convergence_analysis(3, @test_function02, x_guess0, guess_list1, guess_list2, 0);
+
+% Sigmoid Function
+convergence_test(1, 20);
+convergence_test(2, 0);
+convergence_test(3, 20);
+convergence_test(4, 0);
+
+%% Part 5
+egg_throw();
 
 
-function [fval,dfdx] = test_function(x)
+function [fval,dfdx] = test_function01(x)
     fval = (x.^3)/100 - (x.^2)/8 + 2*x + 6*sin(x/2+6) -.7 - exp(x/6);
     dfdx =  3*(x.^2)/100 - 2*x/8 + 2 +(6/2)*cos(x/2+6) - exp(x/6)/6;
+end
+
+% Quadratic function with root at the minimum
+function [f_val,dfdx] = test_function02(x)
+    f_val = (x-30.879).^2;
+    dfdx = 2*(x-30.879);
 end

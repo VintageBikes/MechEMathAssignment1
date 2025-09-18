@@ -1,4 +1,5 @@
-function convergence_test()
+function convergence_test(solver_flag, x_guess2)
+    figure();
     x_in = linspace(0,50,200);
     [fvals, dfdx_vals] = test_function(x_in);
 
@@ -6,7 +7,6 @@ function convergence_test()
     ytol = 1e-14;
     dfdxmin = 1e-10;
     max_iter = 100;
-    
 
     x_root = newton_solver(@test_function,27,dxtol,ytol,max_iter,dfdxmin);
 
@@ -15,7 +15,26 @@ function convergence_test()
 
     for n = 1:length(x_in)
         x_guess = x_in(n);
-        root_attempt = newton_solver(@test_function,x_guess,dxtol,ytol,max_iter,dfdxmin);
+        if solver_flag == 1
+            if sign(test_function(x_guess)) == sign(test_function(x_guess2))
+                % Cancel this run if bisection will error out
+                fail_list(end+1) = x_guess;
+                continue
+            end
+            root_attempt = bisection_solver(@test_function, x_guess, x_guess2, dxtol, ytol, max_iter);
+            title("Bisection Sigmoid (second guess at value " + x_guess2 +")")
+        elseif solver_flag == 2
+            root_attempt = newton_solver(@test_function,x_guess,dxtol,ytol,max_iter,dfdxmin);
+            title("Newton Sigmoid")
+        elseif solver_flag == 3
+            root_attempt = secant_solver(@test_function,x_guess,x_guess2,dxtol,ytol,max_iter,dfdxmin);
+            title("Secant Sigmoid (second guess at value " + x_guess2 +")")
+        elseif solver_flag == 4
+            root_attempt = fzero(@test_function,x_guess);
+            title("Fzero Sigmoid")
+        else
+            error("solver_flag must be an integer between 1-4");
+        end
         if abs(x_root - root_attempt) < .1
             success_list(end+1) = x_guess;
         else
@@ -23,9 +42,8 @@ function convergence_test()
         end
     end
 
-    success_list
-    fail_list
 
+  
     hold on
     [f_success, ~] = test_function(success_list);
     [f_fail, ~] = test_function(fail_list);
