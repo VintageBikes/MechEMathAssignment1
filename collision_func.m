@@ -23,10 +23,10 @@ end
 
 function xmax = egg_wrapper_max_x(t,traj_fun,egg_params)
     [x0,y0,theta] = traj_fun(t);
-    [xmin, xmax, ymin, ymax] = find_bounding_box(x0,y0,theta,egg_params);
+    [~, xmax,~, ~] = find_bounding_box(x0,y0,theta,egg_params);
 end
 
 function ymin = egg_wrapper_max_y(t,traj_fun,egg_params)
     [x0,y0,theta] = traj_fun(t);
-    [xmin, xmax, ymin, ymax] = find_bounding_box(x0,y0,theta,egg_params);
+    [~, ~, ymin, ~] = find_bounding_box(x0,y0,theta,egg_params);
 end
